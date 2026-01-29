@@ -82,7 +82,7 @@ This figure visualizes predicted PD as a nonlinear surface over:
 
 Differences in slope and curvature across regimes highlight **structural sensitivity shifts**.
 
-![Figure 2: PD Surface by Regime](![alt text](image-1.png))
+![Figure 2: PD Surface by Regime](reports/figures/image-1.png)
 
 ---
 
@@ -95,7 +95,7 @@ For identical rate increases:
 - Predicted PD rises faster in contraction regimes
 - The same borrower becomes riskier purely due to macro conditions
 
-![Figure 3: Interest Rate Sensitivity](![alt text](image.png))
+![Figure 3: Interest Rate Sensitivity](reports/figures/image.png)
 
 ---
 
