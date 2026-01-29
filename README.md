@@ -1,5 +1,25 @@
-# Credit Risk Modeling Across Macroeconomic Regimes
+![Python](https://img.shields.io/badge/Python-3.10+-blue)
+![Model](https://img.shields.io/badge/Model-Logistic%20Regression-informational)
+![Domain](https://img.shields.io/badge/Domain-Credit%20Risk-critical)
+![Focus](https://img.shields.io/badge/Focus-Regime%20Dependent%20Risk-orange)
+![License](https://img.shields.io/badge/License-MIT-green)
+
+# Credit Risk Modeling Across Macroeconomic Regimes  
 **A Regime-Dependent Probability of Default Analysis**
+
+---
+
+## Overview
+
+This project studies how **macroeconomic regimes** reshape credit risk beyond simple changes in average default rates.  
+Rather than treating credit risk as static, the analysis focuses on **structural differences** in how borrower characteristics translate into default risk across economic conditions.
+
+Using a **logistic regression Probability of Default (PD) model** and unemployment-based regime classification, the project examines:
+- How the **composition of risk** in the loan portfolio changes across regimes
+- How **model-implied risk maps to realized defaults**
+- How key drivers such as **interest rates and leverage** exhibit **regime-dependent sensitivities**
+
+The emphasis is on **interpretability, economic reasoning, and empirical validation**, closely aligned with real-world credit risk and stress-testing practices.
 
 ---
 
@@ -12,11 +32,11 @@ This project asks a more realistic question:
 > **Do macroeconomic regimes fundamentally reshape credit risk — not just in level, but in structure?**
 
 Specifically:
-- Does the **composition of risk** in a loan portfolio change across regimes?
-- Does the **mapping from predicted risk to realized default** remain stable?
-- Do key drivers (e.g., interest rates, leverage) exhibit **regime-dependent sensitivities**?
+- Does the **distribution of borrower risk** in the loan portfolio change across regimes?
+- Does the **relationship between predicted PD and realized default** remain stable?
+- Do key risk drivers (e.g., interest rates, leverage) behave differently under economic stress?
 
-Understanding these effects is critical for:
+Answering these questions is critical for:
 - Stress testing
 - Model validation
 - Capital planning
@@ -27,16 +47,16 @@ Understanding these effects is critical for:
 ## 2. Methodology
 
 ### Data
-- Loan-level data (borrower characteristics, loan terms, default outcomes)
-- Macroeconomic data (unemployment rate from FRED)
-- Sample period aligned to the post-2007 credit cycle
+- Loan-level data including borrower characteristics, loan terms, and default outcomes
+- Macroeconomic data from FRED (unemployment rate)
+- Sample period aligned with the post-2007 credit cycle
 
 ### Regime Definition
 Macroeconomic regimes are defined using the unemployment rate:
-- **Expansion regime:** unemployment below threshold
-- **Stress / contraction regime:** unemployment above threshold
+- **Expansion regime:** unemployment below a threshold
+- **Stress / contraction regime:** unemployment above the threshold
 
-This provides an **economically interpretable and externally observable** regime signal.
+This approach provides an **externally observable, economically interpretable regime signal**, avoiding latent regime overfitting.
 
 ### Model
 - **Logistic Regression** for Probability of Default (PD)
@@ -46,13 +66,14 @@ This provides an **economically interpretable and externally observable** regime
   - Loan characteristics
   - Credit grades
 
-The model is trained once; analysis focuses on **how its behavior changes across regimes**.
+The model is trained once.  
+The analysis focuses on **how the same model behaves across regimes**, rather than refitting separate models or maximizing predictive accuracy.
 
 ---
 
 ## 3. Evidence & Findings
 
-Each figure corresponds to **one explicit claim**.
+Each figure below corresponds to **one explicit empirical claim** about regime-dependent credit risk behavior.
 
 ---
 
@@ -61,26 +82,40 @@ Each figure corresponds to **one explicit claim**.
 **Claim:**  
 **Macroeconomic regimes reshape credit risk even after conditioning on predicted PD.**
 
-**What this shows:**
-- **Panel A:** Risk composition shifts across regimes, with stress periods concentrating mass in higher PD deciles
-- **Panel B:** For the same predicted PD decile, realized default rates differ by regime
+**Detailed explanation:**  
+This two-panel figure decomposes credit risk into **portfolio composition effects** and **conditional default behavior**, using predicted PD deciles from the logistic regression model.
 
-*This indicates regime-dependent calibration drift.*
+- **Panel A (Risk Composition):**  
+  Loans are grouped into PD deciles based on model-predicted risk.  
+  The figure shows that during stress regimes, the observed loan portfolio becomes more concentrated in higher PD deciles.  
+  This reflects **selection effects**: underwriting standards and borrower participation change under economic stress.
+
+- **Panel B (Conditional Default Rates):**  
+  Holding predicted PD constant, observed default rates differ across regimes.  
+  This indicates **regime-dependent calibration drift**, where identical risk scores correspond to different realized outcomes depending on macroeconomic conditions.
+
+Together, these panels demonstrate that **credit risk is endogenous to the economic regime**, even when the underlying PD model is unchanged.
 
 ![Figure 1: Selection vs Risk Across Regimes](reports/figures/figure_5_selection_vs_risk.png)
 
 ---
 
-### **Figure 2 — Structural Sensitivity of Default Risk**
+### **Figure 2 — Structural Sensitivity of Default Risk (PD Surface)**
 
 **Claim:**  
-**The mapping from borrower characteristics to default risk changes across regimes.**
+**The structural mapping from borrower characteristics to default risk changes across regimes.**
 
-This figure visualizes predicted PD as a nonlinear surface over:
-- Interest rate
-- Debt-to-income ratio
+**Detailed explanation:**  
+This figure visualizes predicted PD as a **nonlinear surface** over interest rate and debt-to-income ratio, derived from the logistic regression model.
 
-Differences in slope and curvature across regimes highlight **structural sensitivity shifts**.
+- Each surface represents \( P(\text{Default} \mid X, \text{Regime}) \)
+- Comparing expansion and contraction regimes reveals differences in:
+  - Slope (marginal risk sensitivity)
+  - Curvature (interaction effects)
+  - Overall risk geometry
+
+Rather than simply shifting risk upward, economic stress **reshapes how borrower characteristics translate into default probability**.  
+This highlights that coefficients alone are insufficient to understand regime-dependent risk behavior.
 
 ![Figure 2: PD Surface by Regime](reports/figures/image-1.png)
 
@@ -91,9 +126,14 @@ Differences in slope and curvature across regimes highlight **structural sensiti
 **Claim:**  
 **Interest rate risk is amplified during economic stress.**
 
-For identical rate increases:
-- Predicted PD rises faster in contraction regimes
-- The same borrower becomes riskier purely due to macro conditions
+**Detailed explanation:**  
+This figure isolates the marginal effect of interest rates on predicted PD while holding other borrower characteristics fixed.
+
+- Under contraction regimes, PD increases more steeply with interest rates
+- Under expansion regimes, the same rate increase has a weaker effect
+
+This demonstrates **regime-dependent sensitivity**, where pricing and refinancing risk becomes more pronounced during stress periods.  
+Such behavior is consistent with tightening financial conditions and reduced borrower resilience.
 
 ![Figure 3: Interest Rate Sensitivity](reports/figures/image.png)
 
@@ -104,11 +144,17 @@ For identical rate increases:
 **Claim:**  
 **Macroeconomic regimes shift both predicted risk distributions and observed outcomes.**
 
-Predicted PD distributions move rightward during stress periods, while observed default rates remain aligned with model ordering.
+**Detailed explanation:**  
+This figure compares the distribution of model-predicted PDs with observed default rates across regimes.
 
-This confirms:
-- Model ranking stability
-- Regime-scaled risk levels
+- Stress regimes exhibit right-shifted PD distributions
+- Observed default rates align with the relative ordering implied by the model
+
+The figure confirms that:
+- The model remains **rank-order consistent**
+- Absolute risk levels are **scaled by macroeconomic conditions**
+
+This supports the use of regime-aware interpretation without discarding the underlying PD model.
 
 ![Figure 4: PD Distribution and Defaults](reports/figures/figure_4_combined_pd_distribution_and_defaults.png)
 
@@ -117,30 +163,108 @@ This confirms:
 ## 4. Key Takeaways
 
 - Credit risk is **regime-dependent**, not regime-invariant
-- Selection, calibration, and sensitivity all change across cycles
-- Logistic regression remains powerful when paired with:
+- Portfolio selection, sensitivity, and calibration all shift across economic cycles
+- Logistic regression remains effective when paired with:
   - Regime conditioning
   - Structural visualization
   - Economic interpretation
 
 ---
 
-## Stress Testing Module (Planned)
+## Stress Testing Philosophy
 
-Stress testing in this project is currently implemented implicitly via:
+Stress testing in this project is implemented **structurally**, rather than via a standalone scenario engine.
+
+Stress effects are captured through:
 - Macroeconomic regime conditioning
-- Structural sensitivity analysis
-- Counterfactual PD surfaces
+- Regime-dependent PD surfaces
+- Sensitivity and calibration analysis
 
-This directory is reserved for future extensions such as:
-- Explicit scenario-based stress tests
-- Regulatory-style capital stress simulations
+This mirrors industry practice, where the same model is evaluated across economic states rather than replaced.
+
+---
+
+## Reproducibility
+
+All figures and results in this repository can be reproduced by:
+1. Installing dependencies listed in `requirements.txt`
+2. Running the scripts in the `src/` directory
+
+The project is designed to be **fully reproducible and modular**.
+
+---
+
+## Repository Structure
+
+credit-risk-economic-regimes/
+├── notebooks/ # Exploratory analysis and feature engineering
+├── reports/figures/ # Final figures used in analysis
+├── src/ # Modeling, regimes, and reporting pipeline
+├── PROJECT_DECISIONS.md # Modeling rationale and design choices
+├── README.md # Project overview and findings
+├── requirements.txt # Python dependencies
 
 
-## 5. Extensions
+---
 
-Potential extensions include:
-- Regime-aware recalibration
-- Counterfactual stress testing
+## Limitations
+
+- The PD model does not explicitly include macroeconomic variables;  
+  regime effects are analyzed via conditioning rather than direct inputs
+- Results reflect **structural risk behavior**, not regulatory capital estimates
+- Interpretability is prioritized over maximum predictive accuracy
+
+---
+
+## Skills & Concepts Demonstrated
+
+This project demonstrates applied skills and concepts commonly expected in
+quantitative risk, credit analytics, and applied data science roles.
+
+### Modeling & Statistics
+- Logistic regression for probability of default (PD)
+- Conditional probability modeling
+- Regime-dependent risk analysis
+- Model calibration and validation concepts
+- Sensitivity analysis and marginal effects
+
+### Machine Learning & Data Science
+- Feature engineering
+- Train/test splits with temporal structure
+- Model interpretability over black-box optimization
+- Distributional analysis and visualization
+- Counterfactual reasoning
+
+### Financial Risk & Economics
+- Credit risk modeling
+- Macroeconomic regime classification
+- Stress-testing intuition
+- Portfolio selection effects
+- Economic interpretation of model outputs
+
+### Tools & Stack
+- Python
+- pandas, NumPy
+- scikit-learn
+- matplotlib / seaborn
+- Git & GitHub
+
+---
+
+## Relevant Coursework & Certifications
+
+- Probability & Statistics for Data Science
+- Machine Learning Foundations
+- Financial Risk Management (FRM-aligned concepts)
+- Applied Econometrics / Time Series Analysis
+
+
+---
+
+## Extensions
+
+Potential future extensions include:
+- Regime-aware model recalibration
+- Counterfactual macro stress scenarios
 - Time-varying coefficient models
 - Capital allocation applications
