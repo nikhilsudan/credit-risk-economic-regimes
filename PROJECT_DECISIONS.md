@@ -1,40 +1,50 @@
-PROJECT: Credit Risk Modeling with Economic Regimes
+# Project Design Decisions
 
-1. Objective
-   Build a regime-aware probability-of-default (PD) model for retail credit risk.
+This document records key modeling and design choices made during the
+development of the regime-dependent credit risk model, along with
+their rationale and trade-offs.
 
-2. Dataset
-   Lending Club loan-level data with issue dates and loan outcomes.
+## Macroeconomic Regime Definition
 
-3. Target Variable
-   Binary default indicator.
+Macroeconomic regimes are defined using the unemployment rate
+sourced from FRED.
 
-4. Macroeconomic Data
-   Federal Reserve Economic Data (FRED):
-   - Unemployment rate
-   - Inflation (CPI)
-   - Policy interest rate
+- Expansion regime: unemployment below threshold
+- Stress (contraction) regime: unemployment above threshold
 
-5. Regime Definition
-   Rule-based economic regimes:
-   - Expansion
-   - Contraction
+Rationale:
+- Observable, externally verifiable macro signal
+- Direct economic interpretation
+- Avoids latent regime overfitting
 
-6. Baseline Model
-   Logistic regression (maximum likelihood estimation).
+## Model Choice
 
-7. Regime Modeling Strategy
-   Interaction terms between borrower features and regime indicator.
+Logistic regression was selected for PD estimation due to:
+- Interpretability of coefficients
+- Alignment with industry credit risk practice
+- Compatibility with regime comparison
 
-8. Validation Method
-   Time-based train-test split only.
+The goal is not maximum predictive power, but structural analysis
+of risk behavior across regimes.
 
-9. Evaluation Metrics
-   ROC-AUC
-   KS statistic
-   Brier score
-   Population Stability Index (PSI)
-   Characteristic Stability Index (CSI)
+## Stress Modeling Approach
 
-10. Stress Testing
-    Macroeconomic shock scenarios applied to estimate PD sensitivity.
+No standalone stress model was implemented.
+
+Instead, stress is represented via:
+- Regime conditioning
+- Regime-specific distributions
+- Regime-conditional sensitivities
+
+This mirrors industry stress-testing workflows where the same model
+is evaluated under different macroeconomic states.
+
+## Scope and Limitations
+
+This project focuses on:
+- Structural differences in credit risk across regimes
+
+It does not attempt:
+- Full CCAR-style stress testing
+- Regulatory capital estimation
+- Production-grade deployment

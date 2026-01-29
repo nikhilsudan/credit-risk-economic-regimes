@@ -67,7 +67,7 @@ Each figure corresponds to **one explicit claim**.
 
 *This indicates regime-dependent calibration drift.*
 
-![Figure 1: Selection vs Risk Across Regimes](reports/figures/figure_12_hero_selection_vs_risk.png)
+![Figure 1: Selection vs Risk Across Regimes](reports/figures/figure_5_selection_vs_risk.png)
 
 ---
 
@@ -82,7 +82,7 @@ This figure visualizes predicted PD as a nonlinear surface over:
 
 Differences in slope and curvature across regimes highlight **structural sensitivity shifts**.
 
-![Figure 2: PD Surface by Regime](reports/figures/figure_pd_surface_by_regime.png)
+![Figure 2: PD Surface by Regime](![alt text](image-1.png))
 
 ---
 
@@ -95,7 +95,7 @@ For identical rate increases:
 - Predicted PD rises faster in contraction regimes
 - The same borrower becomes riskier purely due to macro conditions
 
-![Figure 3: Interest Rate Sensitivity](reports/figures/interest_rate_sensitivity_by_regime.png)
+![Figure 3: Interest Rate Sensitivity](![alt text](image.png))
 
 ---
 
