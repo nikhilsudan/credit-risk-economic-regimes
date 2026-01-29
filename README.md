@@ -194,31 +194,6 @@ The project is designed to be **fully reproducible and modular**.
 
 ---
 
-## Repository Structure
-
-## Repository Structure
-
-## Repository Structure
-
-```text
-credit-risk-economic-regimes/
-├── notebooks/
-│   └── Exploratory analysis and feature engineering
-├── reports/
-│   └── figures/
-│       └── Final figures used in the analysis
-├── src/
-│   └── End-to-end modeling, regime definition, and reporting pipeline
-├── PROJECT_DECISIONS.md
-│   └── Modeling rationale, assumptions, and design choices
-├── README.md
-│   └── Project overview, methodology, figures, and findings
-├── requirements.txt
-│   └── Python dependencies
-
-
----
-
 ## Limitations
 
 - The PD model does not explicitly include macroeconomic variables;  
