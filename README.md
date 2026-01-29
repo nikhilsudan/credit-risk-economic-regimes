@@ -198,6 +198,8 @@ The project is designed to be **fully reproducible and modular**.
 
 ## Repository Structure
 
+## Repository Structure
+
 ```text
 credit-risk-economic-regimes/
 ├── notebooks/
@@ -213,9 +215,6 @@ credit-risk-economic-regimes/
 │   └── Project overview, methodology, figures, and findings
 ├── requirements.txt
 │   └── Python dependencies
-
-
-
 
 
 ---
